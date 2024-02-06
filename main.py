@@ -31,6 +31,18 @@ class MainWindow(QMainWindow):
             if self.DELTA > 90:
                 self.DELTA = 90
             self.show_image()
+        elif event.key() == Qt.Key_Left:
+            self.LON -= self.DELTA
+            self.show_image()
+        elif event.key() == Qt.Key_Right:
+            self.LON += self.DELTA
+            self.show_image()
+        elif event.key() == Qt.Key_Up:
+            self.LAT += self.DELTA
+            self.show_image()
+        elif event.key() == Qt.Key_Down:
+            self.LAT -= self.DELTA
+            self.show_image()
 
     def show_image(self):
         params = {
