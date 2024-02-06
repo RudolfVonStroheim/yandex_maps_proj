@@ -5,6 +5,7 @@ from io import BytesIO
 from PIL import Image
 
 from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtCore import Qt
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
@@ -15,9 +16,21 @@ class MainWindow(QMainWindow):
 
         uic.loadUi("main.ui", self)
         self.url = "https://static-maps.yandex.ru/1.x/"
-        self.DELTA = 0.002
+        self.DELTA = 0.001
         self.LON, self.LAT = 37.279159, 55.835948
         self.show_image()
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_PageUp:
+            self.DELTA /= 2
+            if self.DELTA < 0.0001:
+                self.DELTA = 0.0001
+            self.show_image()
+        elif event.key() == Qt.Key_PageDown:
+            self.DELTA *= 2
+            if self.DELTA > 90:
+                self.DELTA = 90
+            self.show_image()
 
     def show_image(self):
         params = {
