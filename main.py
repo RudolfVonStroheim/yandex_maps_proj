@@ -16,6 +16,8 @@ class MainWindow(QMainWindow):
 
         uic.loadUi("main.ui", self)
         self.url = "https://static-maps.yandex.ru/1.x/"
+        self.map = ["map", "sat", "sat,skl"]
+        self.counter = 0
         self.DELTA = 0.001
         self.LON, self.LAT = 37.279159, 55.835948
         self.show_image()
@@ -43,12 +45,16 @@ class MainWindow(QMainWindow):
         elif event.key() == Qt.Key_Down:
             self.LAT -= self.DELTA
             self.show_image()
+        elif event.key() == Qt.Key_Q:
+            # при нажатии на Q переключается слой карты (схема/спутник/гибрид)
+            self.counter += 1
+            self.show_image()
 
     def show_image(self):
         params = {
             "ll": ",".join((str(self.LON), str(self.LAT))),
             "spn": ",".join((str(self.DELTA), str(self.DELTA))),
-            "l": "map"
+            "l": self.map[self.counter % 3]
         }
 
         response = requests.get(self.url, params)
