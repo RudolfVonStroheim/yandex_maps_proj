@@ -35,15 +35,23 @@ class MainWindow(QMainWindow):
             self.show_image()
         elif event.key() == Qt.Key_Left:
             self.LON -= self.DELTA
+            if self.LON < -180:
+                self.LON = 360 - abs(self.LON)
             self.show_image()
         elif event.key() == Qt.Key_Right:
             self.LON += self.DELTA
+            if self.LON > 180:
+                self.LON = -(360 - abs(self.LON))
             self.show_image()
         elif event.key() == Qt.Key_Up:
             self.LAT += self.DELTA
+            if self.LAT > 90:
+                self.LAT = 90
             self.show_image()
         elif event.key() == Qt.Key_Down:
             self.LAT -= self.DELTA
+            if self.LAT < -90:
+                self.LAT = -90
             self.show_image()
         elif event.key() == Qt.Key_Q:
             # при нажатии на Q переключается слой карты (схема/спутник/гибрид)
